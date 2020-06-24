@@ -18,7 +18,19 @@ app.get('/api/patients', (req, res) => {
             res.json(results);
         }
     });
-})
+});
+
+//Show one patient
+app.get('/api/patients/:id', (req, res) => {
+    const idPatients = req.params.id;
+    connection.query('SELECT * FROM patients WHERE id = ?', idPatients, (err, results) => {
+        if(err) {
+            res.status(500).send('Error while getting patient list');
+        } else {
+            res.json(results);
+        }
+    });
+});
 
 //Create a patient
 app.post('/api/patients', (req, res) => {
