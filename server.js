@@ -41,7 +41,7 @@ app.get('/api/patients/:id/treatment', (req, res) => {
 //Show all patients
 app.get('/api/patients', (req, res) => {
     const patients = req.params.patients;
-    connection.query('SELECT * FROM patients p JOIN medecine_alert ma ON p.id=ma.patient_id WHERE ma.done=0', patients, (err, results) => {
+    connection.query('SELECT * FROM patients p LEFT JOIN medecine_alert ma ON p.id=ma.patient_id WHERE ma.done=0 OR ma.done IS NULL', patients, (err, results) => {
         if(err) {
             res.status(500).send('Error while getting patient list');
         } else {
