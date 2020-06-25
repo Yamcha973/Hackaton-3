@@ -1,9 +1,14 @@
 const express = require('express');
 const app = express();
+const cors = require('cors');
 const port = 8000;
 const connection = require('./conf');
 
+const corsOptions = {
+    origin: "http://localhost:3000/",
+  };
 app.use(express.json());
+app.use(cors(corsOptions));
 app.use(express.urlencoded({
     extended: true
 }));
@@ -52,6 +57,33 @@ app.post('/api/treatment/', (req, res) => {
         if (err) {
             console.log(err);
             res.status(500).send('Error during treatment creation');
+        } else {
+            res.sendStatus(200);
+        }
+    });
+});
+
+
+//Create a treatment for a patient who exist
+app.post('/api/treatment/', (req, res) => {
+    const formData = req.body;
+    connection.query('INSERT INTO medecine_alert SET ? WHERE id = ?', formData, (err, results) => {
+        if (err) {
+            console.log(err);
+            res.status(500).send('Error during treatment creation');
+        } else {
+            res.sendStatus(200);
+        }
+    });
+});
+
+//Create a treatment for a patient who exist
+app.put('/api/treatment/:id', (req, res) => {
+    const idTreatment = req.params.id;
+    connection.query('UPDATE medecine_alert SET done = 1 WHERE id = ?', idTreatment, (err, results) => {
+        if (err) {
+            console.log(err);
+            res.status(500).send('Error during treatment validation');
         } else {
             res.sendStatus(200);
         }
