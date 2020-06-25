@@ -41,7 +41,7 @@ app.get('/api/patients/:id/treatment', (req, res) => {
 //Show all patients
 app.get('/api/patients', (req, res) => {
     const patients = req.params.patients;
-    connection.query('SELECT * FROM patients p JOIN medecine_alert ma ON p.id=ma.patient_id WHERE ma.done=0', patients, (err, results) => {
+    connection.query('SELECT * FROM patients', patients, (err, results) => {
         if(err) {
             res.status(500).send('Error while getting patient list');
         } else {
@@ -124,6 +124,17 @@ app.post('/api/medicaments/', (req, res) => {
             res.status(500).send('Error during medicament creation');
         } else {
             res.sendStatus(200);
+        }
+    });
+});
+
+//Show all treatments
+app.get('/api/treatments', (req, res) => {
+    connection.query('SELECT * FROM medecine_alert ma JOIN patients p ON ma.patient_id = p.id', (err, results) => {
+        if(err) {
+            res.status(500).send('Error while getting patient list');
+        } else {
+            res.json(results);
         }
     });
 });
