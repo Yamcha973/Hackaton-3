@@ -5,7 +5,7 @@ const port = 8000;
 const connection = require('./conf');
 
 const corsOptions = {
-    origin: "http://localhost:3000/",
+    origin: "http://localhost:3000",
   };
 app.use(express.json());
 app.use(cors(corsOptions));
@@ -29,7 +29,7 @@ app.get('/api/patients/:patient_id/medicaments/:id', (req, res) => {
 //Treatment patient list 
 app.get('/api/patients/:id/treatment', (req, res) => {
     const idPatients = req.params.id;
-    connection.query('SELECT me.nom FROM medecine_alert ma JOIN medicaments me ON ma.medicaments_id=me.id WHERE patient_id = ?', idPatients, (err, results) => {
+    connection.query('SELECT * FROM medecine_alert ma JOIN medicaments me ON ma.medicaments_id=me.id WHERE patient_id = ?', idPatients, (err, results) => {
         if(err) {
             res.status(500).send('Error')
         } else {
