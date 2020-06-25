@@ -130,7 +130,7 @@ app.post('/api/medicaments/', (req, res) => {
 
 //Show all treatments
 app.get('/api/treatments', (req, res) => {
-    connection.query('SELECT * FROM medecine_alert ma JOIN patients p ON ma.patient_id = p.id', (err, results) => {
+    connection.query('SELECT * FROM medecine_alert ma JOIN patients p ON ma.patient_id = p.id JOIN medicaments on ma.medicaments_id = medicaments.id', (err, results) => {
         if(err) {
             res.status(500).send('Error while getting patient list');
         } else {
