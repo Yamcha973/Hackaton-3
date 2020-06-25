@@ -13,6 +13,31 @@ app.use(express.urlencoded({
     extended: true
 }));
 
+//fiche patient
+app.get('/api/patients/:patient_id/medicaments/:id', (req, res) => {
+    const idPatients = req.params.patient_id;
+    const idTreatment = req.params.id;
+    connection.query('SELECT * FROM medecine_alert ma JOIN medicaments me ON ma.medicaments_id=me.id WHERE patient_id = ? AND medicaments_id = ?', [idPatients, idTreatment], (err, results) => {
+        if(err) {
+            res.status(500).send('Error')
+        } else {
+            res.json(results);
+        }
+    });
+});
+
+//Treatment patient list 
+app.get('/api/patients/:id/treatment', (req, res) => {
+    const idPatients = req.params.id;
+    connection.query('SELECT me.nom FROM medecine_alert ma JOIN medicaments me ON ma.medicaments_id=me.id WHERE patient_id = ?', idPatients, (err, results) => {
+        if(err) {
+            res.status(500).send('Error')
+        } else {
+            res.json(results);
+        }
+    });
+});
+
 //Show all patients
 app.get('/api/patients', (req, res) => {
     const patients = req.params.patients;
