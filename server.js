@@ -92,7 +92,7 @@ app.post('/api/treatment/', (req, res) => {
 //Create a treatment for a patient who exist
 app.post('/api/treatment/', (req, res) => {
     const formData = req.body;
-    connection.query('INSERT INTO medecine_alert SET ? WHERE id = ?', formData, (err, results) => {
+    connection.query('INSERT INTO medecine_alert SET ?', formData, (err, results) => {
         if (err) {
             console.log(err);
             res.status(500).send('Error during treatment creation');
@@ -102,7 +102,7 @@ app.post('/api/treatment/', (req, res) => {
     });
 });
 
-//Create a treatment for a patient who exist
+//Indicate that medecine was taken
 app.put('/api/treatment/:id', (req, res) => {
     const idTreatment = req.params.id;
     connection.query('UPDATE medecine_alert SET done = 1 WHERE id = ?', idTreatment, (err, results) => {
